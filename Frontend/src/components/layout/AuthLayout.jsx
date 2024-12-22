@@ -2,9 +2,9 @@ import DocumentTitle from 'react-document-title'
 import PropTypes from 'prop-types';
 
 
-const AuthLayout = ({children}) => {
+const AuthLayout = ({children,title}) => {
     return (
-        <DocumentTitle title='login - shopper'>
+        <DocumentTitle title={`${title} -  shopper`}>
                 {children}
         </DocumentTitle>
     )

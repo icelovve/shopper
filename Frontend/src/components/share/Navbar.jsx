@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll } from "framer-motion";
 import PropTypes from 'prop-types';
-//import Cart from "./Cart";
+import Swal from "sweetalert2";
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+// import Cart from "./Cart";
 
 const Navbar = ({ toggleCart }) => {
     const { scrollY } = useScroll();
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,8 +28,25 @@ const Navbar = ({ toggleCart }) => {
         return () => unsubscribe();
     }, [scrollY, lastScrollY]);
 
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        setIsAuthenticated(isLoggedIn === "true");
+    }, []);
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "auto" });
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("isLoggedIn");
+        Swal.fire({
+            icon: "success",
+            text: "Logged out successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+        }).then(() => {
+            window.location.href = '/'
+        });
     };
 
     return (
@@ -62,24 +82,24 @@ const Navbar = ({ toggleCart }) => {
                             placeholder="Search For Products"
                             required
                         />
-                        <button
+                        {/* <button
                             type="submit"
                             className="absolute right-2.5 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-red-700 to-red-800 hover:bg-red-800 text-white text-sm px-5 py-1 mr-0"
                         >
-                            <svg 
-                                fill="none" 
-                                stroke="currentColor" 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                viewBox="0 0 24 24" 
+                            <svg
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                viewBox="0 0 24 24"
                                 className="w-6 h-6"
                             >
-                                <path  
+                                <path
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /
                                 >
                             </svg>
-                        </button>
+                        </button> */}
                     </div>
                 </form>
 
@@ -99,39 +119,105 @@ const Navbar = ({ toggleCart }) => {
                             />
                         </svg>
                     </button>
-                    
+
                     <Link to="/contact" onClick={scrollToTop} className="text-white hover:text-gray-800">
-                        <svg 
-                            className="w-8 h-8 " 
-                            aria-hidden="true" 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            fill="none" 
+                        <svg
+                            className="w-8 h-8 "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
                             viewBox="0 0 32 32"
                         >
-                            <path 
-                                stroke="currentColor" 
-                                strokeLinecap="round" 
-                                strokeWidth="2" 
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeWidth="2"
                                 d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
                             />
                         </svg>
                     </Link>
 
-                    <Link to="/login" className="text-white hover:text-gray-800">
-                        <svg
-                            className="h-8 w-8"
-                            fill="none"
-                            viewBox="0 0 32 32"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                            />
-                        </svg>
-                    </Link>
+                    {/* แสดงรูปโปรไฟล์หากล็อกอินแล้ว */}
+                    {isAuthenticated ? (
+                        // <Link className="relative flex items-center text-white hover:text-gray-800">
+                        //     <svg 
+                        //         xmlns="http://www.w3.org/2000/svg" 
+                        //         fill="none" 
+                        //         viewBox="0 0 32 32" 
+                        //         strokeWidth={1.5} 
+                        //         stroke="currentColor" 
+                        //         className="h-9 w-9"
+                        //     >
+                        //         <path 
+                        //             strokeLinecap="round" 
+                        //             strokeLinejoin="round" 
+                        //             d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" 
+                        //         />
+                        //     </svg>
+                        // </Link>
+                        <Menu as="div" className="relative inline-block mt-2">
+                            <div>
+                                <MenuButton className='text-white'>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 32 32"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="h-9 w-9"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                        />
+                                    </svg>
+                                </MenuButton>
+                            </div>
+
+                            <MenuItems
+                                transition
+                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                            >
+                                <div className="py-1">
+                                    <MenuItem>
+                                        <Link
+                                            to='/profile'
+                                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                                        >
+                                            Profile
+                                        </Link>
+                                    </MenuItem>
+                                        <MenuItem>
+                                            <button
+                                                type="submit"
+                                                className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                                                onClick={handleLogout}
+                                            >
+                                                Sign out
+                                            </button>
+                                        </MenuItem>
+                                </div>
+                            </MenuItems>
+                        </Menu>
+                    ) : (
+                        // ถ้ายังไม่ล็อกอิน แสดงไอคอนล็อกอิน
+                        <Link to="/login" className="text-white hover:text-gray-800">
+                            <svg
+                                className="h-8 w-8"
+                                fill="none"
+                                viewBox="0 0 32 32"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                />
+                            </svg>
+                        </Link>
+                    )}
                 </div>
             </div>
         </motion.nav>

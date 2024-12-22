@@ -40,7 +40,7 @@ const Cart = () => {
                 <div className="space-y-4 mt-6 overflow-y-auto flex-1 px-1.5">
                     {cartItems.length > 0 ? (
                         cartItems.map((item) => (
-                            <div key={item.id} className="flex flex-wrap items-center justify-between gap-4">
+                            <div key={item.id} className="flex flex-wrap items-center justify-between">
                                 <div className="flex items-center">
                                     <img src={item.img} className="w-16 h-16 p-2 shrink-0 rounded-md" />
                                     <div className="ml-4">

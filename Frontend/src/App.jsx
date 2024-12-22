@@ -1,13 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import DisplayProduct from "./pages/DisplayProduct";
-import ProductPage from "./pages/ProductPage";
-import PaymentPage from "./pages/PaymentPage";
-import ErrorPage from "./pages/ErrorPage";
-import LoginPage from "./pages/LoginPage";
-import ContactPage from "./pages/ContactPage";
+import Home from "./pages/ClientView/Home";
+import DisplayProduct from "./pages/ClientView/DisplayProduct";
+import ProductPage from "./pages/ClientView/ProductPage";
+import PaymentPage from "./pages/ClientView/PaymentPage";
+import ErrorPage from "./pages/ClientView/ErrorPage";
+import LoginPage from "./pages/LoginView/LoginPage";
+import ContactPage from "./pages/ClientView/ContactPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentSuccess from "./pages/ClientView/PaymentSuccess";
+import AdminPage from "./pages/AdminView/AdminPage";
+import AdminProduct from "./pages/AdminView/AdminProduct";
+import AdminProductView from './pages/AdminView/AdminProductView';
+import RegisterView from "./pages/LoginView/RegisterView";
+import ProfilePage from "./pages/ClientView/ProfilePage";
 
 const App = () => {
     return (
@@ -30,16 +35,26 @@ const App = () => {
                     <Route path="/product/:id/payment" element={<PaymentPage />} />
                     
                     {/* Login */}
-                    <Route path="/login" element={<LoginPage />} />\
+                    <Route path="/login" element={<LoginPage />} />
+                    
+                    <Route path="/register" element={<RegisterView />} />
                     
                     {/* Contact */}
                     <Route path="/contact" element={<ContactPage />} />
+
+                    {/* Profile */}
+                    <Route path="/profile" element={<ProfilePage/>} />
 
                     {/* Payment successful */}
                     <Route path="product/:id/payment/payment-success" element={<PaymentSuccess />} />
                     
                     {/* ERROR 404 */}
                     <Route path="*" element={<ErrorPage />} />
+                    
+                    {/* Admin View */}
+                    <Route path="/admin-dashboard" element={<AdminPage />} />
+                    <Route path="/admin-product" element={<AdminProduct />} />
+                    <Route path="/admin-product/:id" element={<AdminProductView />} />
                     
                 </Routes>
             </BrowserRouter>
