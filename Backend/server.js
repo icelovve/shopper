@@ -9,8 +9,6 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import multer from 'multer';
 import bcrypt from 'bcrypt';
-import { log } from 'console';
-
 
 const router = express.Router();
 dotenv.config();
@@ -366,11 +364,9 @@ app.delete('/product/:id', (req, res) => {
 // Register endpoint
 app.post('/register', async (req, res) => {
     try {
-        // Hash the password
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        console.log("Hashed Password:", hashedPassword); 
+        // console.log("Hashed Password:", hashedPassword); 
 
-        // SQL query and values
         const sql = "INSERT INTO user (username, email, password) VALUES (?, ?, ?)";
         const values = [
             req.body.username,
@@ -378,7 +374,6 @@ app.post('/register', async (req, res) => {
             hashedPassword
         ];
 
-        // Insert user into the database
         connection.query(sql, values, (err, result) => {
             if (err) {
                 console.error("Error inserting user:", err);
@@ -418,14 +413,12 @@ app.post('/login', async (req, res) => {
                 });
             }
 
-            // Check if user exists
             if (result.length > 0) {
                 const user = result[0];
-                console.log("Stored Hashed Password:", user.password); // Debugging log
+                // console.log("Stored Hashed Password:", user.password); 
 
-                // Compare passwords
                 const isPasswordMatch = await bcrypt.compare(password, user.password);
-                console.log("Password Match Result:", isPasswordMatch); // Debugging log
+                // console.log("Password Match Result:", isPasswordMatch); 
                 
                 if (isPasswordMatch) {
                     return res.status(200).json({
@@ -481,7 +474,6 @@ app.get('/user', (req, res) => {
     });
 });
 
-
 app.get('/user/:id', (req, res) => {
     const userId = req.params.id;
 
@@ -513,7 +505,7 @@ app.get('/user/:id', (req, res) => {
         });
     });
 });
-~
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

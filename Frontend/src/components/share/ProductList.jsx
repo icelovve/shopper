@@ -14,13 +14,13 @@ const ProductList = () => {
 
     const sortedItems = [...items].sort((a, b) => {
         if (sortOrder === "lowToHigh") {
-            return a.price - b.price; // จากราคาต่ำไปสูง
+            return a.price - b.price; 
         } else if (sortOrder === "highToLow") {
-            return b.price - a.price; // จากราคาสูงไปต่ำ
+            return b.price - a.price; 
         } else if (sortOrder === "respectively") {
-            return a.id - b.id; // ตาม id
+            return a.id - b.id; 
         } else if (sortOrder === "topRating") {
-            return b.rating_rate - a.rating_rate; // ดาวสูงไปต่ำ
+            return b.rating_rate - a.rating_rate;
         }
         return 0;
     });

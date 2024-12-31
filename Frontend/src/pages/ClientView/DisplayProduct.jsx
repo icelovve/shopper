@@ -5,11 +5,12 @@ import { fetchProducts, addToCart } from "../../data/productsSlice";
 import MainLayout from "../../components/layout/MainLayout";
 
 const DisplayProduct = () => {
+    const [user, setUser] = useState('');
     const dispatch = useDispatch();
     const { id } = useParams();
     const { items: products, status, error } = useSelector((state) => state.products);
     const product = products.find((item) => item.id === parseInt(id));
-    const [clicked,setClicked] = useState(false);
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
         if (!products.length) {
@@ -18,7 +19,16 @@ const DisplayProduct = () => {
         }
     }, [dispatch, products.length]);
 
-    // Debugging information
+    useEffect(() => {
+        const userData = localStorage.getItem("user");
+        if (userData) {
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+        } else {
+            console.log("No user data found in localStorage.");
+        }
+    }, []);
+
     useEffect(() => {
         console.log("Product ID:", id);
         console.log("Selected Product:", product);
@@ -50,7 +60,6 @@ const DisplayProduct = () => {
             setClicked(false);
         }, 700);
     };
-
 
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: "auto" });
 
@@ -94,28 +103,28 @@ const DisplayProduct = () => {
                         <p className="mt-4 text-green-600 font-semibold">In Stock: {product.rating_count}</p>
                         {/* Add to cart and buy product */}
                         <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 w-80">
-                            <button 
+                            <button
                                 type="button"
                                 className={`flex items-center w-full h-10 justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 button ${clicked ? "clicked" : ""}`}
                                 role="button"
                                 onClick={handleAddToCart}
+                                disabled={user.email === 'admin@gmail.com'}
                             >
                                 <svg className="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                                 </svg>
                                 Add to Cart
                             </button>
-                            <Link 
-                                to={`/product/${product.id}/payment`} 
-                                title 
-                                className="text-white w-full h-10 bg-red-700 mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center" 
+                            <Link
+                                to={user.email !== 'admin@gmail.com' ? `/product/${product.id}/payment` : "#"}
+                                title
+                                className={`text-white w-full h-10 bg-red-700 mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center ${user.email === 'admin@gmail.com' ? 'cursor-not-allowed opacity-50' : ''}`}
                                 role="button"
-                                onClick={scrollToTop}
+                                onClick={user.email !== 'admin@gmail.com' ? scrollToTop : (e) => e.preventDefault()}
                             >
                                 Buy Now
                             </Link>
                         </div>
-
                     </div>
                 </div>
             </div>

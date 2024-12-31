@@ -71,7 +71,7 @@ const PaymentPage = () => {
     const minusProduct = () => count > 1 && setCount((prevCount) => prevCount - 1);
 
     const shipping = 35;
-    const tax = ((parseFloat(product.price) / 100) * 7) * count;
+    const tax = ((parseFloat(product.price) / 100) * 0) * count;
     const discount = 0;
     const total = ((parseFloat(product.price)) * count) + shipping + tax - discount;
 
@@ -226,7 +226,7 @@ const PaymentPage = () => {
     };
 
     return (
-        <MainLayout title="Payment">
+        <MainLayout title={`Payment - ${product.title}`}>
             <div className="pt-12">
                 {/* Breadcrumbs */}
                 <div className="ml-32 font-medium w-1/6">
@@ -308,7 +308,7 @@ const PaymentPage = () => {
                             <ul className="text-gray-800 mt-8 space-y-4">
                                 <li className="flex flex-wrap gap-4 text-base">Discount <span className="ml-auto font-bold">฿{discount.toFixed(2)}</span></li>
                                 <li className="flex flex-wrap gap-4 text-base">Shipping <span className="ml-auto font-bold">฿{shipping.toFixed(2)}</span></li>
-                                <li className="flex flex-wrap gap-4 text-base">Tax <span className="ml-auto font-bold">฿{tax.toFixed(2)}</span></li>
+                                {/* <li className="flex flex-wrap gap-4 text-base">Tax <span className="ml-auto font-bold">฿{tax.toFixed(2)}</span></li> */}
                                 <li className="flex flex-wrap gap-4 text-base font-bold ">Total <span className="ml-auto text-xl">฿{total.toFixed(2)}</span></li>
                             </ul>
                             <div

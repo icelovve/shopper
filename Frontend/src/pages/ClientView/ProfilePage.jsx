@@ -96,19 +96,19 @@ const ProfilePage = () => {
                                             <p className="text-gray-500">
                                                 Name :
                                                 <span className="text-gray-600">
-                                                    { user.user.username }
+                                                    { user.username }
                                                 </span>
                                             </p>
                                         </div>
                                         <div>
                                             <p className="text-gray-500">
-                                                Email : <span className="text-gray-600">{ user.user.email }</span>
+                                                Email : <span className="text-gray-600">{ user.email }</span>
                                             </p>
                                         </div>
                                         <div>
                                             <p className="text-gray-500">
                                                 Phone :
-                                                {/* <span className="text-gray-600">{ user.user.phone }</span> */}
+                                                <span className="text-gray-600">{ user.phone }</span>
                                             </p>
                                         </div>
                                     </div>

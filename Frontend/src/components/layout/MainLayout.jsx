@@ -14,7 +14,7 @@ const MainLayout = ({ children, title }) => {
 	};
 
 	return (
-		<DocumentTitle title={`${title} - Shopper`}>
+		<DocumentTitle title={`${title}`}>
 			<div className='flex flex-col min-h-screen'>
 				<header>
 					<Navbar toggleCart={toggleCart} showCart={showCart} />

@@ -11,6 +11,7 @@ const Navbar = ({ toggleCart }) => {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState('');
 
     useEffect(() => {
         const handleScroll = () => {
@@ -33,6 +34,16 @@ const Navbar = ({ toggleCart }) => {
         setIsAuthenticated(isLoggedIn === "true");
     }, []);
 
+    useEffect(() => {
+        const userData = localStorage.getItem("user");
+        if (userData) {
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+        } else {
+            console.log("No user data found in localStorage.");
+        }
+    }, []);
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "auto" });
     };
@@ -49,10 +60,11 @@ const Navbar = ({ toggleCart }) => {
         });
     };
 
+
+
     return (
         <motion.nav
-            className={`fixed top-0 left-0 w-full z-50 py-2 bg-gradient-to-r from-red-600 to-red-800 border-gray-200 transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"
-                }`}
+            className={`fixed top-0 left-0 w-full z-50 py-2 bg-gradient-to-r from-red-600 to-red-800 border-gray-200 transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}
         >
             <div className="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-4">
                 <Link to="/" className="flex items-center space-x-3 text-white hover:text-gray-800" onClick={scrollToTop}>
@@ -78,7 +90,7 @@ const Navbar = ({ toggleCart }) => {
                         <input
                             type="search"
                             id="default-search"
-                            className="block w-full ps-5 text-sm border border-red-700 focus:ring-red-500 focus:border-red-500 py-3"
+                            className="block w-full px-5 text-sm border border-red-700 focus:ring-red-500 focus:border-red-500 py-3 rounded-full"
                             placeholder="Search For Products"
                             required
                         />
@@ -139,37 +151,19 @@ const Navbar = ({ toggleCart }) => {
 
                     {/* แสดงรูปโปรไฟล์หากล็อกอินแล้ว */}
                     {isAuthenticated ? (
-                        // <Link className="relative flex items-center text-white hover:text-gray-800">
-                        //     <svg 
-                        //         xmlns="http://www.w3.org/2000/svg" 
-                        //         fill="none" 
-                        //         viewBox="0 0 32 32" 
-                        //         strokeWidth={1.5} 
-                        //         stroke="currentColor" 
-                        //         className="h-9 w-9"
-                        //     >
-                        //         <path 
-                        //             strokeLinecap="round" 
-                        //             strokeLinejoin="round" 
-                        //             d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" 
-                        //         />
-                        //     </svg>
-                        // </Link>
-                        <Menu as="div" className="relative inline-block mt-2">
-                            <div>
+                        <Menu as="div" className="relative inline-block">
+                            <div className="flex justify-around">
                                 <MenuButton className='text-white'>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
                                         viewBox="0 0 32 32"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="h-9 w-9"
+                                        fill="currentColor"
+                                        className="w-9 h-9"
                                     >
                                         <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                            fillRule="evenodd"
+                                            d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                                            clipRule="evenodd"
                                         />
                                     </svg>
                                 </MenuButton>
@@ -181,22 +175,38 @@ const Navbar = ({ toggleCart }) => {
                             >
                                 <div className="py-1">
                                     <MenuItem>
-                                        <Link
-                                            to='/profile'
+                                        <p
                                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
                                         >
-                                            Profile
-                                        </Link>
+                                            Account : {user.username}
+                                        </p>
                                     </MenuItem>
-                                        <MenuItem>
-                                            <button
-                                                type="submit"
-                                                className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                                                onClick={handleLogout}
+                                    <MenuItem>
+                                        {user.email === 'admin@gmail.com' ? (
+                                            <Link
+                                                to='/admin-dashboard'
+                                                className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
                                             >
-                                                Sign out
-                                            </button>
-                                        </MenuItem>
+                                                Dashboard
+                                            </Link>
+                                        ) : (
+                                            <Link
+                                                to='/profile'
+                                                className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                                            >
+                                                Profile
+                                            </Link>
+                                        )}
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <button
+                                            type="submit"
+                                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                                            onClick={handleLogout}
+                                        >
+                                            Sign out
+                                        </button>
+                                    </MenuItem>
                                 </div>
                             </MenuItems>
                         </Menu>

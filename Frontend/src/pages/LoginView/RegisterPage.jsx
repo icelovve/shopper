@@ -1,11 +1,13 @@
 import AuthLayout from "../../components/layout/AuthLayout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import bgImage from "../../assets/bg-login.jpg";
 import Swal from 'sweetalert2'
 
-const RegisterView = () => {
+
+const RegisterPage = () => {
+    const navigator = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -48,8 +50,11 @@ const RegisterView = () => {
                 text: "You have successfully created an account.",
                 showConfirmButton: false,
                 timer: 1500
-              });
+            });
+
+            navigator("/login");
         })
+        
         .catch((e) => {
             console.error("Error -->", e);
             setError("Failed to register. Please try again.");
@@ -61,8 +66,6 @@ const RegisterView = () => {
               });
         });
     };
-
-
 
     return (
         <AuthLayout title="Register">
@@ -175,4 +178,4 @@ const RegisterView = () => {
     );
 };
 
-export default RegisterView;
+export default RegisterPage;

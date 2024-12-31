@@ -1,4 +1,3 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/ClientView/Home";
 import DisplayProduct from "./pages/ClientView/DisplayProduct";
 import ProductPage from "./pages/ClientView/ProductPage";
@@ -6,13 +5,14 @@ import PaymentPage from "./pages/ClientView/PaymentPage";
 import ErrorPage from "./pages/ClientView/ErrorPage";
 import LoginPage from "./pages/LoginView/LoginPage";
 import ContactPage from "./pages/ClientView/ContactPage";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import PaymentSuccess from "./pages/ClientView/PaymentSuccess";
 import AdminPage from "./pages/AdminView/AdminPage";
 import AdminProduct from "./pages/AdminView/AdminProduct";
 import AdminProductView from './pages/AdminView/AdminProductView';
-import RegisterView from "./pages/LoginView/RegisterView";
+import RegisterPage from "./pages/LoginView/RegisterPage";
 import ProfilePage from "./pages/ClientView/ProfilePage";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
     return (
@@ -24,8 +24,11 @@ const App = () => {
             >
                 <Routes>
 
+                    {/* Home Page */}
                     <Route path="/" element={<Home />} />
                     <Route path="/product" element={<Home />} />
+
+                    {/* Product List */}
                     <Route path="/product-list" element={<ProductPage />} />
 
                     {/* Display Product */}
@@ -37,7 +40,7 @@ const App = () => {
                     {/* Login */}
                     <Route path="/login" element={<LoginPage />} />
                     
-                    <Route path="/register" element={<RegisterView />} />
+                    <Route path="/register" element={<RegisterPage />} />
                     
                     {/* Contact */}
                     <Route path="/contact" element={<ContactPage />} />
